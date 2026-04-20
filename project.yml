@@ -1,0 +1,55 @@
+name: LidarDepthMapper
+
+options:
+  bundleIdPrefix: com.lidar
+  deploymentTarget:
+    iOS: "15.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+  defaultConfig: Debug
+
+configs:
+  Debug:   debug
+  Release: release
+
+targets:
+  LidarDepthMapper:
+    type: application
+    platform: iOS
+
+    sources:
+      - path: LidarDepthMapper
+        includes:
+          - "**/*.swift"
+          - "**/*.metal"
+          - "**/*.xcassets"
+          - "Info.plist"
+
+    info:
+      path: LidarDepthMapper/Info.plist
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lidar.depthmapper
+        SWIFT_VERSION: "5.9"
+        IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+        TARGETED_DEVICE_FAMILY: "1,2"   # iPhone + iPad
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        ENABLE_PREVIEWS: YES
+
+      configs:
+        Debug:
+          DEBUG_INFORMATION_FORMAT: dwarf
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+
+    # No external package dependencies — uses only system frameworks
+    dependencies:
+      - sdk: ARKit.framework
+      - sdk: Metal.framework
+      - sdk: MetalKit.framework
+      - sdk: UIKit.framework

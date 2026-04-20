@@ -19,7 +19,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Camera + overlay ── */
     #video {
       position: fixed; inset: 0;
       width: 100%; height: 100%;
@@ -30,12 +29,7 @@
       width: 100%; height: 100%;
       pointer-events: none;
     }
-
-    /* ── HUD ── */
-    #hud {
-      position: fixed; inset: 0;
-      pointer-events: none;
-    }
+    #hud { position: fixed; inset: 0; pointer-events: none; }
 
     #depth-label {
       position: absolute;
@@ -44,15 +38,12 @@
       background: rgba(0,0,0,.65);
       color: #fff;
       font-size: 18px; font-weight: 600;
-      letter-spacing: .3px;
-      padding: 10px 22px;
-      border-radius: 14px;
+      padding: 10px 22px; border-radius: 14px;
       white-space: nowrap;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
 
-    /* Crosshair */
     #crosshair {
       position: absolute;
       top: 50%; left: 50%;
@@ -60,10 +51,8 @@
       width: 44px; height: 44px;
     }
 
-    /* Legend */
     #legend-wrap {
-      position: absolute;
-      right: 14px;
+      position: absolute; right: 14px;
       top: 50%; transform: translateY(-50%);
       display: flex; align-items: center; gap: 6px;
     }
@@ -78,52 +67,42 @@
       text-shadow: 0 1px 4px rgba(0,0,0,.9);
     }
     #legend-bar {
-      width: 14px; height: 130px;
-      border-radius: 7px;
+      width: 14px; height: 130px; border-radius: 7px;
       background: linear-gradient(to bottom,
         rgb(20,75,235), rgb(25,200,70),
-        rgb(245,245,20), rgb(255,140,0),
-        rgb(230,30,25));
+        rgb(245,245,20), rgb(255,140,0), rgb(230,30,25));
       box-shadow: 0 2px 8px rgba(0,0,0,.5);
     }
 
-    /* Controls */
     #controls {
       position: absolute;
       bottom: max(24px, env(safe-area-inset-bottom, 24px));
       left: 0; right: 0;
       display: flex; justify-content: space-between; align-items: center;
-      padding: 0 20px;
-      pointer-events: all;
+      padding: 0 20px; pointer-events: all;
     }
     button {
-      background: rgba(0,0,0,.7);
-      color: #fff; border: none;
-      border-radius: 14px;
-      padding: 13px 18px;
-      font-size: 15px; font-weight: 600;
-      cursor: pointer;
+      background: rgba(0,0,0,.7); color: #fff; border: none;
+      border-radius: 14px; padding: 13px 18px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      transition: opacity .15s, background .2s;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
       min-width: 120px; text-align: center;
     }
     button:active { opacity: .65; }
     #freeze-btn.frozen { background: rgba(210,35,35,.85); }
 
-    /* FPS / inference badge */
     #perf {
       position: absolute;
-      bottom: max(90px, calc(env(safe-area-inset-bottom, 24px) + 66px));
+      bottom: max(88px, calc(env(safe-area-inset-bottom, 24px) + 64px));
       left: 50%; transform: translateX(-50%);
-      font-size: 11px; color: rgba(255,255,255,.45);
+      font-size: 11px; color: rgba(255,255,255,.4);
+      white-space: nowrap;
     }
 
-    /* Loading overlay */
     #loader {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,.88);
+      background: rgba(0,0,0,.9);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       gap: 18px; z-index: 10;
@@ -131,13 +110,23 @@
     #loader.hidden { display: none; }
     #loader-text {
       color: #fff; font-size: 16px; font-weight: 500;
-      text-align: center; padding: 0 32px; line-height: 1.5;
+      text-align: center; padding: 0 32px; line-height: 1.6;
+      max-width: 320px;
+    }
+    #loader-bar-wrap {
+      width: 220px; height: 4px;
+      background: rgba(255,255,255,.15); border-radius: 2px;
+      overflow: hidden;
+    }
+    #loader-bar {
+      height: 100%; width: 0%;
+      background: #4090ff; border-radius: 2px;
+      transition: width .3s ease;
     }
     .spinner {
       width: 40px; height: 40px;
       border: 3px solid rgba(255,255,255,.2);
-      border-top-color: #fff;
-      border-radius: 50%;
+      border-top-color: #fff; border-radius: 50%;
       animation: spin .8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -154,10 +143,8 @@
   <svg id="crosshair" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     <filter id="sh"><feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="rgba(0,0,0,.9)"/></filter>
     <g filter="url(#sh)" stroke="white" stroke-width="2.2" stroke-linecap="round">
-      <line x1="2"  y1="22" x2="13" y2="22"/>
-      <line x1="31" y1="22" x2="42" y2="22"/>
-      <line x1="22" y1="2"  x2="22" y2="13"/>
-      <line x1="22" y1="31" x2="22" y2="42"/>
+      <line x1="2" y1="22" x2="13" y2="22"/><line x1="31" y1="22" x2="42" y2="22"/>
+      <line x1="22" y1="2" x2="22" y2="13"/><line x1="22" y1="31" x2="22" y2="42"/>
     </g>
     <circle cx="22" cy="22" r="2.5" fill="white" filter="url(#sh)"/>
   </svg>
@@ -181,34 +168,37 @@
 <div id="loader">
   <div class="spinner"></div>
   <div id="loader-text">Starting camera…</div>
+  <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
 </div>
 
-<!-- TensorFlow.js (single bundle) -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.13.0/dist/tf.min.js"></script>
-<!-- Depth estimation model -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/depth-estimation@0.0.6/dist/depth-estimation.min.js"></script>
+<script type="module">
+import { pipeline, env }
+  from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.esm.min.js';
 
-<script>
-'use strict';
+// Always fetch model weights from CDN (no local cache on first visit)
+env.allowLocalModels = false;
 
 // ── Config ────────────────────────────────────────────────────────────────
-const INFERENCE_INTERVAL_MS = 80;   // ~12 fps depth updates
-const MODES      = ['Gradient', 'Contour', 'Combined', 'Camera'];
-const MODE_ICONS = ['🎨',       '〰️',     '🗺️',       '📷'];
+const MODEL_ID   = 'Xenova/depth-anything-small-hf';
+const INPUT_SIZE = 518;   // DepthAnything preferred input size
+const LOOP_MS    = 120;   // ~8 fps depth updates
 
-// Topographic color ramp: index 0 = near (red), index 4 = far (blue)
-const COLOR_STOPS = [
-  [230,  30,  25],   // red   – very close
-  [255, 140,   0],   // orange
-  [245, 245,  20],   // yellow
-  [ 25, 200,  70],   // green
-  [ 20,  75, 235],   // blue  – far
+const MODES      = ['Gradient', 'Contour', 'Combined', 'Camera'];
+const MODE_ICONS = ['🎨', '〰️', '🗺️', '📷'];
+
+// Color ramp: t=0 → near (red), t=1 → far (blue)
+const STOPS = [
+  [230,  30,  25],
+  [255, 140,   0],
+  [245, 245,  20],
+  [ 25, 200,  70],
+  [ 20,  75, 235],
 ];
 
 // ── State ─────────────────────────────────────────────────────────────────
-let mode      = 0;
-let frozen    = false;
-let estimator = null;
+let mode    = 0;
+let frozen  = false;
+let pipe    = null;
 
 // ── DOM ───────────────────────────────────────────────────────────────────
 const video      = document.getElementById('video');
@@ -217,27 +207,26 @@ const octx       = overlay.getContext('2d');
 const depthLbl   = document.getElementById('depth-label');
 const loaderEl   = document.getElementById('loader');
 const loaderText = document.getElementById('loader-text');
+const loaderBar  = document.getElementById('loader-bar');
 const modeBtn    = document.getElementById('mode-btn');
 const freezeBtn  = document.getElementById('freeze-btn');
 const perfEl     = document.getElementById('perf');
 const legendWrap = document.getElementById('legend-wrap');
 
 // ── Helpers ───────────────────────────────────────────────────────────────
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-function setLoader(text) {
+function setLoader(text, pct = null) {
   if (text === null) { loaderEl.classList.add('hidden'); return; }
   loaderEl.classList.remove('hidden');
   loaderText.textContent = text;
+  if (pct !== null) loaderBar.style.width = pct + '%';
 }
 
-// ── Color ramp ────────────────────────────────────────────────────────────
 function depthToRGB(t) {
   t = Math.max(0, Math.min(1, t));
-  const s = t * (COLOR_STOPS.length - 1);
-  const i = Math.min(Math.floor(s), COLOR_STOPS.length - 2);
+  const s = t * (STOPS.length - 1);
+  const i = Math.min(s | 0, STOPS.length - 2);
   const f = s - i;
-  const a = COLOR_STOPS[i], b = COLOR_STOPS[i + 1];
+  const a = STOPS[i], b = STOPS[i + 1];
   return [
     (a[0] + f * (b[0] - a[0]) + .5) | 0,
     (a[1] + f * (b[1] - a[1]) + .5) | 0,
@@ -247,138 +236,143 @@ function depthToRGB(t) {
 
 // ── Camera ────────────────────────────────────────────────────────────────
 async function startCamera() {
-  if (!navigator.mediaDevices?.getUserMedia) {
-    throw new Error('Camera API not available. Open this page over HTTPS.');
-  }
   const stream = await navigator.mediaDevices.getUserMedia({
     video: { facingMode: { ideal: 'environment' },
              width: { ideal: 1280 }, height: { ideal: 720 } },
     audio: false,
   });
   video.srcObject = stream;
-  await new Promise((res, rej) => {
-    video.onloadedmetadata = res;
-    video.onerror = rej;
+  await new Promise((ok, fail) => {
+    video.onloadedmetadata = ok;
+    video.onerror = fail;
   });
-  syncOverlaySize();
+  syncSize();
 }
 
-function syncOverlaySize() {
+function syncSize() {
   overlay.width  = window.innerWidth;
   overlay.height = window.innerHeight;
 }
-window.addEventListener('resize', syncOverlaySize);
+window.addEventListener('resize', syncSize);
 
-// ── Model ─────────────────────────────────────────────────────────────────
-async function loadModel() {
-  await tf.setBackend('webgl');
-  await tf.ready();
-  estimator = await depthEstimation.createEstimator(
-    depthEstimation.SupportedModels.ARPortraitDepth
-  );
+// ── Snapshot helper (center-crop video → square canvas) ───────────────────
+const snap    = document.createElement('canvas');
+snap.width    = INPUT_SIZE;
+snap.height   = INPUT_SIZE;
+const snapCtx = snap.getContext('2d');
+
+function captureFrame() {
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const s  = Math.min(vw, vh);
+  snapCtx.drawImage(video, (vw - s) / 2, (vh - s) / 2, s, s, 0, 0, INPUT_SIZE, INPUT_SIZE);
+  return snap;
 }
 
 // ── Rendering ─────────────────────────────────────────────────────────────
-// Small canvas at model output resolution, scaled up via drawImage.
-let smallCanvas = null, sctx = null;
+let renderCanvas = null, rctx = null;
 
-function paintDepth(depthData, dw, dh) {
-  if (!smallCanvas || smallCanvas.width !== dw || smallCanvas.height !== dh) {
-    smallCanvas = document.createElement('canvas');
-    smallCanvas.width = dw;
-    smallCanvas.height = dh;
-    sctx = smallCanvas.getContext('2d');
+function paintDepth(rawData, dw, dh) {
+  // Normalize raw depth values to [0, 1]
+  // DepthAnything outputs inverse depth: larger value = CLOSER.
+  // We invert so t=0 means near (red) and t=1 means far (blue).
+  let min = rawData[0], max = rawData[0];
+  for (let i = 1; i < rawData.length; i++) {
+    if (rawData[i] < min) min = rawData[i];
+    if (rawData[i] > max) max = rawData[i];
+  }
+  const range = (max - min) || 1;
+
+  if (!renderCanvas || renderCanvas.width !== dw) {
+    renderCanvas = document.createElement('canvas');
+    renderCanvas.width = dw; renderCanvas.height = dh;
+    rctx = renderCanvas.getContext('2d');
   }
 
-  const img = sctx.createImageData(dw, dh);
+  const img = rctx.createImageData(dw, dh);
   const px  = img.data;
-  const BAND = 0.08;  // contour band interval in [0,1]
+  const BAND = 0.08;
+
+  // Center pixel index for depth readout
+  const ci = ((dh / 2 | 0) * dw + (dw / 2 | 0));
+  // Invert: DepthAnything high = close → t=0 (red) = near
+  const centerT = 1 - (rawData[ci] - min) / range;
+  updateLabel(centerT);
 
   for (let i = 0; i < dw * dh; i++) {
-    const d = depthData[i];   // 0 = near, 1 = far
+    const t = 1 - (rawData[i] - min) / range;  // 0=near, 1=far
     let r = 0, g = 0, b = 0, a = 0;
 
     if (mode !== 3) {
-      const frac = (d / BAND) % 1;
+      const frac = (t / BAND) % 1;
       const edge = frac < 0.1 || frac > 0.9;
-      const [cr, cg, cb] = depthToRGB(d);
+      const [cr, cg, cb] = depthToRGB(t);
 
-      if (mode === 0) {                     // gradient
-        r = cr; g = cg; b = cb; a = 172;
-      } else if (mode === 1) {              // contour
-        if (edge) { r = 0;  g = 0;  b = 0;  a = 225; }
-        else      { r = cr; g = cg; b = cb; a =  50; }
-      } else {                              // combined
-        if (edge) { r = 0;  g = 0;  b = 0;  a = 225; }
-        else      { r = cr; g = cg; b = cb; a = 165; }
+      if      (mode === 0) { r=cr; g=cg; b=cb; a=172; }
+      else if (mode === 1) {
+        if (edge) { r=0; g=0; b=0; a=225; }
+        else      { r=cr; g=cg; b=cb; a=50; }
+      } else {
+        if (edge) { r=0; g=0; b=0; a=225; }
+        else      { r=cr; g=cg; b=cb; a=165; }
       }
     }
 
     const p = i * 4;
-    px[p] = r; px[p+1] = g; px[p+2] = b; px[p+3] = a;
+    px[p]=r; px[p+1]=g; px[p+2]=b; px[p+3]=a;
   }
 
-  sctx.putImageData(img, 0, 0);
+  rctx.putImageData(img, 0, 0);
   octx.clearRect(0, 0, overlay.width, overlay.height);
-  octx.drawImage(smallCanvas, 0, 0, overlay.width, overlay.height);
+  octx.drawImage(renderCanvas, 0, 0, overlay.width, overlay.height);
 }
 
 // ── Depth label ───────────────────────────────────────────────────────────
-const DEPTH_BANDS = [
-  [0.20, '● Very Close', '#ff4040'],
-  [0.40, '● Close',      '#ff8800'],
-  [0.60, '● Mid Range',  '#e8e820'],
-  [0.80, '● Far',        '#20cc50'],
-  [1.01, '● Very Far',   '#4090ff'],
+const BANDS = [
+  [.20, '● Very Close', '#ff4040'],
+  [.40, '● Close',      '#ff8800'],
+  [.60, '● Mid Range',  '#e8e820'],
+  [.80, '● Far',        '#20cc50'],
+  [1.1, '● Very Far',   '#4090ff'],
 ];
-
 function updateLabel(t) {
-  for (const [thresh, text, color] of DEPTH_BANDS) {
-    if (t < thresh) {
-      depthLbl.textContent  = text;
-      depthLbl.style.color  = color;
-      return;
-    }
+  for (const [thresh, text, color] of BANDS) {
+    if (t < thresh) { depthLbl.textContent = text; depthLbl.style.color = color; return; }
   }
 }
 
-// ── Main inference loop ───────────────────────────────────────────────────
+// ── Inference loop ────────────────────────────────────────────────────────
 async function inferenceLoop() {
-  let lastT = 0;
-
   while (true) {
-    await sleep(INFERENCE_INTERVAL_MS);
-
-    if (frozen || !estimator || video.readyState < 2) continue;
+    await new Promise(r => setTimeout(r, LOOP_MS));
+    if (frozen || !pipe || video.readyState < 2) continue;
 
     try {
       const t0 = performance.now();
-      const result = await estimator.estimateDepth(video);
-      const tensor = result.depthTensor;
-      const [dh, dw] = tensor.shape;
-      const data = await tensor.data();   // Float32Array
-      tensor.dispose();
 
-      // Center pixel depth
-      const cx = (dh / 2 | 0) * dw + (dw / 2 | 0);
-      updateLabel(data[cx]);
+      const frame  = captureFrame();
+      const result = await pipe(frame);
+
+      // predicted_depth dims: [H, W] or [1, H, W]
+      const tensor = result.predicted_depth;
+      const dims   = tensor.dims;
+      const dh     = dims[dims.length - 2];
+      const dw     = dims[dims.length - 1];
+      const data   = tensor.data;  // Float32Array
 
       paintDepth(data, dw, dh);
 
-      const dt = performance.now() - t0;
-      perfEl.textContent = `${dt | 0} ms / frame`;
+      perfEl.textContent = `${(performance.now() - t0) | 0} ms / frame`;
     } catch (e) {
-      console.warn('Depth inference error:', e);
+      console.warn('Depth error:', e);
     }
   }
 }
 
-// ── UI events ─────────────────────────────────────────────────────────────
+// ── UI ────────────────────────────────────────────────────────────────────
 modeBtn.addEventListener('click', () => {
   mode = (mode + 1) % MODES.length;
   modeBtn.textContent = `${MODE_ICONS[mode]} ${MODES[mode]}`;
-  const showLegend = mode !== 3;
-  legendWrap.style.visibility = showLegend ? 'visible' : 'hidden';
+  legendWrap.style.visibility = mode !== 3 ? 'visible' : 'hidden';
   if (mode === 3) octx.clearRect(0, 0, overlay.width, overlay.height);
 });
 
@@ -391,19 +385,29 @@ freezeBtn.addEventListener('click', () => {
 // ── Boot ──────────────────────────────────────────────────────────────────
 (async () => {
   try {
-    setLoader('Starting camera…');
+    setLoader('Starting camera…', 0);
     await startCamera();
 
-    setLoader('Loading depth model…\n(first load ~5 s)');
-    await loadModel();
+    setLoader('Downloading depth model…\nFirst load ~30 s on mobile', 10);
+
+    pipe = await pipeline('depth-estimation', MODEL_ID, {
+      progress_callback: ({ status, loaded, total }) => {
+        if (status === 'progress' && total > 0) {
+          setLoader(
+            `Downloading model…\n${(loaded / 1e6).toFixed(0)} / ${(total / 1e6).toFixed(0)} MB`,
+            10 + (loaded / total) * 88
+          );
+        }
+      },
+    });
 
     setLoader(null);
     depthLbl.textContent = 'Scanning…';
     depthLbl.style.color = '#fff';
 
-    inferenceLoop(); // runs forever, errors are caught internally
+    inferenceLoop();
   } catch (err) {
-    setLoader(`⚠️ ${err.message || 'Setup failed'}\n\nMake sure you opened this page over HTTPS and allowed camera access.`);
+    setLoader(`⚠️ ${err.message || 'Setup failed'}\n\nOpen this page over HTTPS and allow camera access.`);
     console.error(err);
   }
 })();

@@ -42,6 +42,10 @@
         <string>metal</string>
     </array>
 
+    <!-- Launch screen (no storyboard needed) -->
+    <key>UILaunchScreen</key>
+    <dict/>
+
     <!-- No scene manifest — AppDelegate owns the window -->
     <key>UIApplicationSceneManifest</key>
     <dict>

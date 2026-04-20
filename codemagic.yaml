@@ -1,0 +1,56 @@
+workflows:
+  ios-testflight:
+    name: iOS → TestFlight
+    max_build_duration: 60
+    instance_type: mac_mini_m1  # fastest free-tier machine
+
+    # -----------------------------------------------------------------------
+    # One-time dashboard setup (do this before your first build):
+    #   1. Codemagic dashboard → Teams → Integrations → App Store Connect
+    #      → Add API key (generate at appstoreconnect.apple.com → Users →
+    #        Keys, role "App Manager").  Name it "Codemagic".
+    #   2. In your app's settings → Environment variables, that's it.
+    # -----------------------------------------------------------------------
+
+    integrations:
+      app_store_connect: Codemagic   # must match the name you gave the key
+
+    environment:
+      xcode: latest
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.lidar.depthmapper
+
+    scripts:
+      - name: Generate Xcode project with XcodeGen
+        script: |
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install xcodegen
+          xcodegen generate
+
+      - name: Initialize keychain
+        script: keychain initialize
+
+      - name: Fetch App Store signing files
+        script: |
+          app-store-connect fetch-signing-files com.lidar.depthmapper \
+            --type IOS_APP_STORE \
+            --create
+
+      - name: Apply signing to Xcode project
+        script: xcode-project use-profiles
+
+      - name: Build IPA
+        script: |
+          xcode-build-tool build-ipa \
+            --project "$CM_BUILD_DIR/LidarDepthMapper.xcodeproj" \
+            --scheme LidarDepthMapper \
+            --config Release
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true   # lands in TestFlight automatically
